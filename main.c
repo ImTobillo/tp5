@@ -51,19 +51,43 @@ int buscarDatoArbol (nodoA* arbol, int dato)
         {
             rta = buscarDatoArbol(arbol->izq, dato);
             if (rta == 0)
-            {
-                rta =
-            }
+                rta = buscarDatoArbol(arbol->der, dato);
+
+            return rta;
         }
 
     }
     else
         return 0;
-
-
 }
 
+int buscarDatoArbol2 (nodoA* arbol, int dato)
+{
+    int rta = 0;
 
+    if (arbol)
+    {
+        if (arbol->dato == dato) // condicion de corte
+            return 1; // solucion trivial
+        else
+        {
+            rta = buscarDatoArbol2(arbol->izq, dato); // caso recursivo 1
+            if (rta == 0)
+                rta = buscarDatoArbol2(arbol->der, dato); // caso recursivo 2
+        }
+    }
+    return rta;
+}
+
+void mostrarPreorden (nodoA* arbol)
+{
+    if (arbol)
+    {
+        printf("%i\t", arbol->dato);
+        mostrarPreorden(arbol->izq);
+        mostrarPreorden(arbol->der);
+    }
+}
 
 /// main
 
@@ -84,9 +108,11 @@ int main()
 
     //printf("%i", arbol->der->izq->dato);
 
-    printf("%i", contarNodosHoja(arbol));
+    printf("CANTIDAD NODOS HOJA: %i\n", contarNodosHoja(arbol));
+    printf("EXISTE %i?: %i\n\n", 4, buscarDatoArbol2(arbol, 4));
 
-
+    printf("ARBOL PREORDEN:\t");
+    mostrarPreorden(arbol);
 
 
     return 0;
